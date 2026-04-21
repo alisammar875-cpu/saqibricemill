@@ -2,7 +2,7 @@
 
 import { createOrder } from '@/lib/firestore'
 import { getSession } from '@/actions/auth'
-import { sendOrderConfirmationEmail } from '@/lib/email'
+import { sendOrderConfirmationEmail, sendAdminOrderNotificationEmail } from '@/lib/email'
 
 export async function placeOrder(data: {
   items: {
@@ -49,9 +49,12 @@ export async function placeOrder(data: {
       shippingAddress: data.shippingAddress,
     })
 
-    // Send the confirmation email asynchronously
-    sendOrderConfirmationEmail(orderId, data).catch(err => {
-      console.error('Failed to send order email inside action:', err)
+    // Send emails asynchronously
+    Promise.all([
+      sendOrderConfirmationEmail(orderId, data),
+      sendAdminOrderNotificationEmail(orderId, data)
+    ]).catch(err => {
+      console.error('Failed to send order emails inside action:', err)
     })
 
     return { success: true, orderId }

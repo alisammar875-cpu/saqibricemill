@@ -194,3 +194,53 @@ export async function sendOrderStatusUpdateEmail(orderId: string, orderData: any
     return false
   }
 }
+
+export async function sendAdminOrderNotificationEmail(orderId: string, orderData: any) {
+  try {
+    const transporter = getTransporter()
+    if (!transporter) return false
+
+    const itemsList = orderData.items.map((item: any) => 
+      `• ${item.name} (${item.variantName}) x ${item.quantity} - ${formatPKR(item.price * item.quantity)}`
+    ).join('<br>')
+
+    const htmlContent = `
+      <div style="font-family: sans-serif; padding: 20px; color: #1A1A1A;">
+        <h2 style="color: #006400;">🚀 New Order Received! #${orderId}</h2>
+        <p>A new order has been placed on Saqib Rice Mills.</p>
+        
+        <div style="background: #F8F9FA; padding: 15px; border-radius: 8px; margin: 20px 0;">
+          <h3 style="margin-top: 0;">Customer Details</h3>
+          <p><strong>Name:</strong> ${orderData.guestName}</p>
+          <p><strong>Phone:</strong> ${orderData.guestPhone}</p>
+          <p><strong>Email:</strong> ${orderData.guestEmail}</p>
+          <p><strong>City:</strong> ${orderData.shippingAddress.city}</p>
+        </div>
+
+        <div style="background: #F8F9FA; padding: 15px; border-radius: 8px; margin: 20px 0;">
+          <h3 style="margin-top: 0;">Order Summary</h3>
+          <p>${itemsList}</p>
+          <hr border="0" style="border-top: 1px solid #ddd;">
+          <p><strong>Grand Total: ${formatPKR(orderData.total)}</strong></p>
+          <p><strong>Payment Method:</strong> ${orderData.paymentMethod}</p>
+        </div>
+
+        <a href="https://saqibricemill.vercel.app/admin/orders/${orderId}" 
+           style="display: inline-block; background: #006400; color: white; padding: 12px 25px; border-radius: 6px; text-decoration: none; font-weight: bold;">
+           Manage Order in Admin Portal
+        </a>
+      </div>
+    `
+
+    await transporter.sendMail({
+      from: `"Store Notification" <${process.env.SMTP_EMAIL}>`,
+      to: process.env.SMTP_EMAIL, // Send to self (admin)
+      subject: `🚨 NEW ORDER #${orderId} - ${orderData.guestName}`,
+      html: htmlContent,
+    })
+    return true
+  } catch (error) {
+    console.error('❌ Error sending admin notification:', error)
+    return false
+  }
+}
