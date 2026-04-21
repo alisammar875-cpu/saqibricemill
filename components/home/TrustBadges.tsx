@@ -13,7 +13,7 @@ const BADGES = [
 
 export function TrustBadges() {
   return (
-    <section className="relative py-6 overflow-hidden" style={{ background: 'var(--charcoal, #1A1A18)' }}>
+    <section className="relative py-6 overflow-hidden" style={{ background: 'var(--dark, #111111)' }}>
       <div className="flex items-center gap-12 px-8 overflow-x-auto scrollbar-hide">
         {BADGES.map((badge, i) => (
           <motion.div

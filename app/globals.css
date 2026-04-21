@@ -20,11 +20,11 @@
     --brand: rgba(212,175,119,0.2);
     --gold: #e0be8f;
     --emerald-deep: #0b3d19;
-    --charcoal: #f2f4f1;
-    --ivory: #0e1510;
-    --warm: #121b14;
-    --cream: #151e17;
-    --dark: #060a07;
+    --charcoal: #f2f4f1; /* Light text color for dark mode */
+    --ivory: #0e1510;    /* Dark background */
+    --warm: #121b14;     /* Dark background */
+    --cream: #151e17;    /* Dark background */
+    --dark: #060a07;     /* Deepest dark background */
   }
 
   [data-theme='dark'] body {
