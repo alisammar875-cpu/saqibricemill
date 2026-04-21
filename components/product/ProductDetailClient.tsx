@@ -29,9 +29,9 @@ interface ProductDetailClientProps {
     organic?: boolean
     isNew?: boolean
     category: { name: string; slug: string }
-    variants: { id: string; name: string; weight: number; priceOffset: number; stock: number }[]
-    images: any[]
-    reviews: { rating: number; title?: string; body?: string; user?: { firstName: string; lastName: string }; createdAt?: string }[]
+    variants: { id: string; name: string; weight: number; priceOffset: number; stock: number; isActive?: boolean }[]
+    images: { url: string; altText?: string | null; isPrimary?: boolean }[]
+    reviews: { rating: number; title?: string; body?: string; userName?: string; user?: { firstName: string; lastName: string }; createdAt?: string }[]
     tags?: string[]
   }
 }
