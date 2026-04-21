@@ -11,8 +11,8 @@ import { getSession, logoutUser } from '@/actions/auth'
 
 const NAV_LINKS = [
   { href: '/shop',     label: 'Shop' },
-  { href: '/shop?cat=premium-basmati', label: 'Basmati' },
-  { href: '/shop?cat=bulk-export',     label: 'Bulk Orders' },
+  { href: '/shop?cat=basmati', label: 'Basmati' },
+  { href: '/shop?cat=irri',    label: 'IRRI Rice' },
   { href: '/recipes',  label: 'Recipes' },
   { href: '/about',    label: 'Our Story' },
   { href: '/export',   label: 'Export' },

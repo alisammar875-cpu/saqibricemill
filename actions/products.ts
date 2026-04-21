@@ -32,11 +32,6 @@ export async function getProducts({
   limit?: number
   search?: string
 } = {}) {
-  const normalizedCategory =
-    category === 'premium-basmati' || category === 'bulk-export'
-      ? 'BASMATI_1121'
-      : category
-
   const snap = await db.collection('products').where('isActive', '==', true).get().catch((error: unknown) => {
     console.error('Failed to load products:', error)
     return null
@@ -45,8 +40,8 @@ export async function getProducts({
 
   const filtered = all
     .filter((p: DbProduct) =>
-      normalizedCategory
-        ? p.category?.slug === normalizedCategory || p.riceType === normalizedCategory
+      category
+        ? p.category?.slug === category || p.riceType === category
         : true
     )
     .filter((p: DbProduct) => (riceType ? p.riceType === riceType : true))
