@@ -55,19 +55,18 @@ export function Navbar() {
     <>
       <header
         className={[
-          'fixed top-8 left-0 right-0 z-50 flex items-center justify-between',
+          'sticky top-0 z-50 flex items-center justify-between',
           'px-[5vw] transition-all duration-500',
-          scrolled
-            ? 'bg-warm/95 backdrop-blur-xl shadow-card border-b border-brand h-[68px]'
+          scrolled || !isHeroPage
+            ? 'bg-warm/95 dark:bg-[#0F1A0F]/95 backdrop-blur-xl shadow-card border-b border-brand dark:border-brand/30 h-[68px]'
             : 'bg-transparent h-20',
         ].join(' ')}
-        style={{ top: scrolled ? '0' : '32px' }}
       >
         {/* Logo */}
         <Link href="/" className="flex-shrink-0">
           <SaqibLogo
             height={scrolled ? 38 : 44}
-            lightText={!scrolled && isHeroPage}
+            lightText={(!scrolled && isHeroPage) || (scrolled && theme === 'dark')}
           />
         </Link>
 
@@ -83,7 +82,7 @@ export function Navbar() {
                 'after:scale-x-0 after:origin-right after:transition-transform after:duration-300',
                 'hover:after:scale-x-100 hover:after:origin-left',
                 scrolled || !isHeroPage
-                  ? 'text-charcoal hover:text-gold'
+                  ? 'text-charcoal dark:text-white/90 hover:text-gold dark:hover:text-gold'
                   : 'text-white/90 hover:text-gold',
               ].join(' ')}
             >
@@ -93,7 +92,7 @@ export function Navbar() {
         </nav>
 
         {/* Actions */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2">
           {/* Theme toggle */}
           <button
             onClick={toggleTheme}
@@ -101,7 +100,7 @@ export function Navbar() {
             className={[
               'w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300',
               'hover:bg-gold/15',
-              scrolled || !isHeroPage ? 'text-charcoal' : 'text-white/80',
+              scrolled || !isHeroPage ? 'text-charcoal dark:text-white/90' : 'text-white/80',
             ].join(' ')}
           >
             {theme === 'dark' ? (
@@ -116,12 +115,25 @@ export function Navbar() {
             href="/shop"
             aria-label="Search products"
             className={[
-              'w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300',
+              'w-10 h-10 rounded-full hidden sm:flex items-center justify-center transition-all duration-300',
               'hover:bg-gold/15',
-              scrolled || !isHeroPage ? 'text-charcoal' : 'text-white/80',
+              scrolled || !isHeroPage ? 'text-charcoal dark:text-white/90' : 'text-white/80',
             ].join(' ')}
           >
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </Link>
+
+          {/* Mobile Auth Icon (Only visible on mobile) */}
+          <Link
+            href={session ? (session.role === 'ADMIN' ? '/admin' : '/account') : '/sign-in'}
+            aria-label="Account"
+            className={[
+              'w-10 h-10 rounded-full flex sm:hidden items-center justify-center transition-all duration-300',
+              'hover:bg-gold/15',
+              scrolled || !isHeroPage ? 'text-charcoal dark:text-white/90' : 'text-white/80',
+            ].join(' ')}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           </Link>
 
           {/* Cart */}
@@ -131,7 +143,7 @@ export function Navbar() {
             className={[
               'relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300',
               'hover:bg-gold/15',
-              scrolled || !isHeroPage ? 'text-charcoal' : 'text-white/80',
+              scrolled || !isHeroPage ? 'text-charcoal dark:text-white/90' : 'text-white/80',
             ].join(' ')}
           >
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
@@ -142,15 +154,18 @@ export function Navbar() {
             )}
           </button>
 
-          {/* Auth */}
+          {/* Desktop Auth */}
           {session ? (
-            <div className="hidden sm:flex items-center gap-4">
-              <Link href={session.role === 'ADMIN' ? '/admin' : '/account'} className="text-2xs font-semibold text-charcoal hover:text-gold transition-colors">
+            <div className="hidden sm:flex items-center gap-4 ml-2">
+              <Link href={session.role === 'ADMIN' ? '/admin' : '/account'} className={[
+                'text-2xs font-semibold transition-colors',
+                scrolled || !isHeroPage ? 'text-charcoal dark:text-white/90 hover:text-gold' : 'text-white/90 hover:text-gold'
+              ].join(' ')}>
                 {(session.name as string)?.split(' ')[0] || 'Profile'}
               </Link>
               <button 
                 onClick={handleLogout}
-                className="text-2xs text-mid-gray hover:text-red-500 transition-colors"
+                className="text-2xs text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-500 transition-colors"
               >
                 Logout
               </button>
@@ -158,7 +173,10 @@ export function Navbar() {
           ) : (
             <Link
               href="/sign-in"
-              className="hidden sm:flex btn btn-primary text-2xs px-5 py-2.5"
+              className={[
+                'hidden sm:flex btn text-2xs px-5 py-2.5 ml-2',
+                scrolled || !isHeroPage ? 'btn-emerald' : 'bg-white text-dark hover:bg-gold'
+              ].join(' ')}
             >
               Sign In
             </Link>
@@ -169,8 +187,8 @@ export function Navbar() {
             onClick={() => setMobileOpen(v => !v)}
             aria-label="Toggle menu"
             className={[
-              'lg:hidden flex flex-col gap-[5px] w-8 py-1 transition-colors',
-              scrolled || !isHeroPage ? 'text-charcoal' : 'text-white',
+              'lg:hidden flex flex-col gap-[5px] w-8 py-1 ml-1 transition-colors',
+              scrolled || !isHeroPage ? 'text-charcoal dark:text-white/90' : 'text-white',
             ].join(' ')}
           >
             <span className={`block h-[1.5px] bg-current transition-all duration-300 ${mobileOpen ? 'translate-y-[6.5px] rotate-45' : ''}`} />
@@ -195,7 +213,7 @@ export function Navbar() {
         {/* Drawer */}
         <nav
           className={[
-            'absolute top-0 right-0 h-full w-72 bg-warm shadow-deep',
+            'absolute top-0 right-0 h-full w-72 bg-warm dark:bg-[#0F1A0F] shadow-deep',
             'flex flex-col pt-24 px-8 pb-10 gap-6 transition-transform duration-500',
             mobileOpen ? 'translate-x-0' : 'translate-x-full',
           ].join(' ')}
@@ -204,19 +222,19 @@ export function Navbar() {
             <Link
               key={href}
               href={href}
-              className="font-display text-xl font-semibold text-charcoal hover:text-gold transition-colors border-b border-brand pb-4"
+              className="font-display text-xl font-semibold text-charcoal dark:text-white/90 hover:text-gold transition-colors border-b border-brand dark:border-brand/30 pb-4"
             >
               {label}
             </Link>
           ))}
           {session ? (
              <div className="flex flex-col gap-4 mt-4">
-              <Link href={session.role === 'ADMIN' ? '/admin' : '/account'} className="font-display text-xl font-semibold text-emerald">
+              <Link href={session.role === 'ADMIN' ? '/admin' : '/account'} className="font-display text-xl font-semibold text-emerald dark:text-emerald-light">
                 {(session.name as string)?.split(' ')[0] || 'My Account'}
               </Link>
               <button 
                 onClick={handleLogout}
-                className="text-left w-full font-display text-xl font-semibold text-red-500"
+                className="text-left w-full font-display text-xl font-semibold text-red-500 dark:text-red-400"
               >
                 Logout
               </button>
