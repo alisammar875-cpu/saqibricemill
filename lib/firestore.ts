@@ -196,15 +196,18 @@ export async function getInventoryRows() {
 
 export async function getAdminDashboardData() {
   const [orders, inventory] = await Promise.all([getAdminOrders(), getInventoryRows()])
-  const deliveredRevenue = orders
-    .filter((o) => o.status === 'DELIVERED' || o.status === 'Delivered' || o.paymentStatus === 'PAID')
-    .reduce((sum, o) => sum + Number(o.total ?? 0), 0)
+  
+  // Calculate revenue from all non-cancelled orders for a more "live" view
+  const activeOrders = orders.filter((o) => o.status !== 'CANCELLED' && o.status !== 'Cancelled')
+  const totalRevenue = activeOrders.reduce((sum, o) => sum + Number(o.total ?? 0), 0)
+  
   const lowStock = inventory.filter((i) => i.status !== 'OK').slice(0, 5)
+  
   return {
-    revenue: deliveredRevenue,
+    revenue: totalRevenue,
     ordersCount: orders.length,
     customersCount: await db.collection('users').where('role', '==', 'CUSTOMER').get().then((s) => s.size).catch(() => 0),
-    avgOrderValue: orders.length ? deliveredRevenue / orders.length : 0,
+    avgOrderValue: activeOrders.length ? totalRevenue / activeOrders.length : 0,
     recentOrders: orders.slice(0, 5),
     lowStock,
   }

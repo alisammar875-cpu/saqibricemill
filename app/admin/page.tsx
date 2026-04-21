@@ -5,10 +5,10 @@ import { getAdminDashboardData } from '@/lib/firestore'
 export default async function AdminDashboard() {
   const data = await getAdminDashboardData()
   const STATS = [
-    { label: 'Revenue', value: formatPKR(data.revenue), change: '-', icon: '💰' },
-    { label: 'Orders', value: String(data.ordersCount), change: '-', icon: '📦' },
-    { label: 'Customers', value: String(data.customersCount), change: '-', icon: '👥' },
-    { label: 'Avg. Order Value', value: formatPKR(data.avgOrderValue), change: '-', icon: '📊' },
+    { label: 'Total Revenue', value: formatPKR(data.revenue), desc: 'All active orders', icon: '💰' },
+    { label: 'Total Orders', value: String(data.ordersCount), desc: 'Lifetime orders', icon: '📦' },
+    { label: 'Active Customers', value: String(data.customersCount), desc: 'Registered users', icon: '👥' },
+    { label: 'Avg. Order Value', value: formatPKR(data.avgOrderValue), desc: 'Per active order', icon: '📊' },
   ]
 
   return (
@@ -29,15 +29,15 @@ export default async function AdminDashboard() {
       {/* Stats cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-10">
         {STATS.map(stat => (
-          <div key={stat.label} className="bg-ivory rounded-xl border border-brand p-6">
+          <div key={stat.label} className="bg-ivory rounded-xl border border-brand p-6 hover:shadow-card transition-all">
             <div className="flex items-center justify-between mb-4">
-              <span className="text-2xl">{stat.icon}</span>
-              <span className="text-2xs font-semibold px-2 py-0.5 rounded-full bg-emerald/10 text-emerald">
-                {stat.change}
-              </span>
+              <span className="text-2xl p-2 bg-emerald/5 rounded-lg">{stat.icon}</span>
             </div>
             <p className="font-display text-2xl font-semibold text-charcoal">{stat.value}</p>
-            <p className="text-2xs text-mid-gray uppercase tracking-wider mt-1">{stat.label}</p>
+            <div className="flex items-center justify-between mt-1">
+              <p className="text-2xs text-mid-gray uppercase tracking-wider">{stat.label}</p>
+              <span className="text-[10px] text-emerald font-medium">{stat.desc}</span>
+            </div>
           </div>
         ))}
       </div>
