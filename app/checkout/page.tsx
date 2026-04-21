@@ -235,28 +235,48 @@ export default function CheckoutPage() {
               <div className="space-y-5">
                 <h2 className="font-display text-xl font-semibold text-charcoal mb-4">Payment Method</h2>
                 {[
-                  { id: 'COD', label: 'Cash on Delivery', desc: 'Pay when you receive your order', icon: '💵' },
-                  { id: 'JAZZCASH', label: 'JazzCash', desc: 'Mobile wallet payment', icon: '📱' },
-                  { id: 'EASYPAISA', label: 'EasyPaisa', desc: 'Mobile wallet payment', icon: '📱' },
-                  { id: 'BANK_TRANSFER', label: 'Bank Transfer', desc: 'Direct bank deposit', icon: '🏦' },
+                  { id: 'COD', label: 'Cash on Delivery', desc: 'Pay when you receive your order', icon: '💵', disabled: false },
+                  { id: 'JAZZCASH', label: 'JazzCash', desc: 'Coming Soon', icon: '📱', disabled: true },
+                  { id: 'EASYPAISA', label: 'EasyPaisa', desc: 'Coming Soon', icon: '📱', disabled: true },
+                  { id: 'BANK_TRANSFER', label: 'Bank Transfer', desc: 'Coming Soon', icon: '🏦', disabled: true },
                 ].map(opt => (
                   <label
                     key={opt.id}
                     className={[
-                      'flex items-center gap-4 p-5 rounded-xl border cursor-pointer transition-all',
+                      'flex items-center gap-4 p-5 rounded-xl border transition-all',
+                      opt.disabled ? 'opacity-50 cursor-not-allowed bg-cream/50' : 'cursor-pointer',
                       payment === opt.id ? 'border-emerald bg-emerald/5' : 'border-brand bg-ivory hover:border-gold',
                     ].join(' ')}
+                    onClick={(e) => {
+                      if (opt.disabled) {
+                        e.preventDefault()
+                        return
+                      }
+                      setPayment(opt.id)
+                    }}
                   >
                     <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${payment === opt.id ? 'border-emerald' : 'border-brand'}`}>
                       {payment === opt.id && <div className="w-2.5 h-2.5 rounded-full bg-emerald" />}
                     </div>
                     <span className="text-xl">{opt.icon}</span>
-                    <div>
+                    <div className="flex-1">
                       <p className="text-sm font-semibold text-charcoal">{opt.label}</p>
                       <p className="text-2xs text-mid-gray">{opt.desc}</p>
                     </div>
-                    <input type="radio" name="payment" value={opt.id} checked={payment === opt.id}
-                      onChange={() => setPayment(opt.id)} className="sr-only" />
+                    {opt.disabled && (
+                      <span className="text-[9px] font-bold tracking-tighter uppercase px-2 py-0.5 rounded bg-brand/20 text-mid-gray">
+                        Offline
+                      </span>
+                    )}
+                    <input 
+                      type="radio" 
+                      name="payment" 
+                      value={opt.id} 
+                      checked={payment === opt.id}
+                      disabled={opt.disabled}
+                      onChange={() => !opt.disabled && setPayment(opt.id)} 
+                      className="sr-only" 
+                    />
                   </label>
                 ))}
                 <div className="flex gap-4 pt-4">
