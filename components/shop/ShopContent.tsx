@@ -133,9 +133,9 @@ export function ShopContent({ searchParams, initialProducts }: ShopContentProps)
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
           {filtered.map(product => {
-            const baseVariant = product.variants[0]
-            const price = product.basePrice + (baseVariant?.priceOffset ?? 0)
-            const rating = avgRating(product.reviews)
+            const baseVariant = product.variants?.[0]
+            const price = Number(product.basePrice || 0) + (baseVariant?.priceOffset ?? 0)
+            const rating = avgRating(product.reviews || [])
             const stars = Math.round(rating)
             const discount = product.comparePrice
               ? Math.round(((product.comparePrice - price) / product.comparePrice) * 100)
@@ -196,7 +196,7 @@ export function ShopContent({ searchParams, initialProducts }: ShopContentProps)
                   {/* Info */}
                   <div className="p-5">
                     <p className="text-2xs font-semibold tracking-widest uppercase text-emerald mb-1.5">
-                      {product.category.name}
+                      {product.category?.name || 'Rice'}
                     </p>
                     <h3 className="font-display text-[1.25rem] font-semibold text-charcoal leading-tight mb-1.5 group-hover:text-emerald transition-colors line-clamp-2">
                       {product.name}
@@ -208,7 +208,7 @@ export function ShopContent({ searchParams, initialProducts }: ShopContentProps)
                     )}
 
                     {/* Stars */}
-                    {product.reviews.length > 0 && (
+                    {(product.reviews?.length ?? 0) > 0 && (
                       <div className="flex items-center gap-1.5 mb-4">
                         <div className="flex gap-0.5">
                           {[1, 2, 3, 4, 5].map(n => (

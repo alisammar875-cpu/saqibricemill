@@ -33,12 +33,12 @@ export function ProductCard({ product, avgRating = 0, className = '' }: ProductC
   const [adding, setAdding] = useState(false)
   const addItem = useCartStore(s => s.addItem)
 
-  const baseVariant = product.variants[0]
-  const price = Number(product.basePrice) + Number(baseVariant?.priceOffset ?? 0)
+  const baseVariant = product.variants?.[0]
+  const price = Number(product.basePrice || 0) + Number(baseVariant?.priceOffset ?? 0)
   const comparePrice = product.comparePrice ? Number(product.comparePrice) : null
   const discount = comparePrice ? calcDiscount(comparePrice, price) : null
-  const reviewCount = product._count?.reviews ?? product.reviews.length
-  const primaryImage = product.images[0]
+  const reviewCount = product._count?.reviews ?? (product.reviews?.length || 0)
+  const primaryImage = product.images?.[0]
 
   const badge = product.isNew
     ? { label: 'New Harvest', style: 'bg-gold text-dark' }
@@ -130,7 +130,9 @@ export function ProductCard({ product, avgRating = 0, className = '' }: ProductC
 
         {/* Info */}
         <div className="p-5">
-          <p className="text-2xs font-semibold tracking-widest uppercase text-emerald mb-1.5">{product.category.name}</p>
+          <p className="text-2xs font-semibold tracking-widest uppercase text-emerald mb-1.5">
+            {product.category?.name || 'Rice'}
+          </p>
           <h3 className="font-display text-[1.25rem] font-semibold text-charcoal leading-tight mb-1.5 group-hover:text-emerald transition-colors line-clamp-2">
             {product.name}
           </h3>
