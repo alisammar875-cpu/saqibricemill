@@ -26,7 +26,9 @@ function getItemsHtml(items: any[]) {
 }
 
 function generateEmailHtml({ title, message, orderId, orderData }: { title: string, message: string, orderId: string, orderData: any }) {
-  const { NEXT_PUBLIC_APP_URL } = process.env
+  const isProd = process.env.NODE_ENV === 'production'
+  const baseUrl = isProd ? 'https://saqibricemill.vercel.app' : 'http://localhost:3000'
+
   return `
   <!DOCTYPE html>
   <html>
