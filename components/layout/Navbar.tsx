@@ -55,18 +55,18 @@ export function Navbar() {
     <>
       <header
         className={[
-          'sticky top-0 z-50 flex items-center justify-between',
+          'sticky top-0 z-50 flex items-center justify-between w-full',
           'px-[5vw] transition-all duration-500',
-          scrolled || !isHeroPage
+          scrolled 
             ? 'bg-warm/95 dark:bg-[#0F1A0F]/95 backdrop-blur-xl shadow-card border-b border-brand dark:border-brand/30 h-[68px]'
-            : 'bg-transparent h-20',
+            : 'bg-warm dark:bg-[#0F1A0F] h-20 border-b border-brand/20 dark:border-white/10',
         ].join(' ')}
       >
         {/* Logo */}
         <Link href="/" className="flex-shrink-0">
           <SaqibLogo
             height={scrolled ? 38 : 44}
-            lightText={(!scrolled && isHeroPage) || (scrolled && theme === 'dark')}
+            lightText={theme === 'dark'}
           />
         </Link>
 
@@ -81,9 +81,7 @@ export function Navbar() {
                 'after:absolute after:bottom-[-4px] after:left-0 after:right-0 after:h-px after:bg-gold',
                 'after:scale-x-0 after:origin-right after:transition-transform after:duration-300',
                 'hover:after:scale-x-100 hover:after:origin-left',
-                scrolled || !isHeroPage
-                  ? 'text-charcoal dark:text-white/90 hover:text-gold dark:hover:text-gold'
-                  : 'text-white/90 hover:text-gold',
+                'text-charcoal dark:text-white/90 hover:text-gold dark:hover:text-gold',
               ].join(' ')}
             >
               {label}
@@ -100,7 +98,7 @@ export function Navbar() {
             className={[
               'w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300',
               'hover:bg-gold/15',
-              scrolled || !isHeroPage ? 'text-charcoal dark:text-white/90' : 'text-white/80',
+              'text-charcoal dark:text-white/90',
             ].join(' ')}
           >
             {theme === 'dark' ? (
@@ -117,7 +115,7 @@ export function Navbar() {
             className={[
               'w-10 h-10 rounded-full hidden sm:flex items-center justify-center transition-all duration-300',
               'hover:bg-gold/15',
-              scrolled || !isHeroPage ? 'text-charcoal dark:text-white/90' : 'text-white/80',
+              'text-charcoal dark:text-white/90',
             ].join(' ')}
           >
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -130,7 +128,7 @@ export function Navbar() {
             className={[
               'w-10 h-10 rounded-full flex sm:hidden items-center justify-center transition-all duration-300',
               'hover:bg-gold/15',
-              scrolled || !isHeroPage ? 'text-charcoal dark:text-white/90' : 'text-white/80',
+              'text-charcoal dark:text-white/90',
             ].join(' ')}
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
@@ -143,7 +141,7 @@ export function Navbar() {
             className={[
               'relative w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300',
               'hover:bg-gold/15',
-              scrolled || !isHeroPage ? 'text-charcoal dark:text-white/90' : 'text-white/80',
+              'text-charcoal dark:text-white/90',
             ].join(' ')}
           >
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
@@ -159,7 +157,7 @@ export function Navbar() {
             <div className="hidden sm:flex items-center gap-4 ml-2">
               <Link href={session.role === 'ADMIN' ? '/admin' : '/account'} className={[
                 'text-2xs font-semibold transition-colors',
-                scrolled || !isHeroPage ? 'text-charcoal dark:text-white/90 hover:text-gold' : 'text-white/90 hover:text-gold'
+                'text-charcoal dark:text-white/90 hover:text-gold'
               ].join(' ')}>
                 {(session.name as string)?.split(' ')[0] || 'Profile'}
               </Link>
@@ -173,10 +171,7 @@ export function Navbar() {
           ) : (
             <Link
               href="/sign-in"
-              className={[
-                'hidden sm:flex btn text-2xs px-5 py-2.5 ml-2',
-                scrolled || !isHeroPage ? 'btn-emerald' : 'bg-white text-dark hover:bg-gold'
-              ].join(' ')}
+              className="hidden sm:flex btn btn-emerald text-2xs px-5 py-2.5 ml-2"
             >
               Sign In
             </Link>
@@ -188,7 +183,7 @@ export function Navbar() {
             aria-label="Toggle menu"
             className={[
               'lg:hidden flex flex-col gap-[5px] w-8 py-1 ml-1 transition-colors',
-              scrolled || !isHeroPage ? 'text-charcoal dark:text-white/90' : 'text-white',
+              'text-charcoal dark:text-white/90',
             ].join(' ')}
           >
             <span className={`block h-[1.5px] bg-current transition-all duration-300 ${mobileOpen ? 'translate-y-[6.5px] rotate-45' : ''}`} />

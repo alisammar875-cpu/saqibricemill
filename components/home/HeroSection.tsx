@@ -45,7 +45,7 @@ export function HeroSection() {
   }
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{ marginTop: '-80px' }}>
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden" style={{ marginTop: 0 }}>
       {/* Background */}
       <div
         className="absolute inset-0"
