@@ -6,6 +6,7 @@ const config: Config = {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: ["selector", '[data-theme="dark"]'],
   theme: {
     extend: {
       colors: {
@@ -20,13 +21,13 @@ const config: Config = {
           light: "#E8C97A",
           dark: "#B8945A",
         },
-        charcoal: "#1A1A18",
-        dark: "#111111",
+        charcoal: "var(--charcoal)",
+        dark: "var(--dark)",
         "mid-gray": "#6B6B5E",
         "light-gray": "#D1D1C7",
-        warm: "#FAF8F3",
-        ivory: "#FEFDFC",
-        cream: "#F4F0E6",
+        warm: "var(--warm, #FAF8F3)",
+        ivory: "var(--ivory)",
+        cream: "var(--cream, #F4F0E6)",
       },
       fontFamily: {
         display: ["Georgia", "Times New Roman", "serif"],

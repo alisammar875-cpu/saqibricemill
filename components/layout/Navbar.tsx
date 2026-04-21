@@ -58,8 +58,8 @@ export function Navbar() {
           'sticky top-0 z-50 flex items-center justify-between w-full',
           'px-[5vw] transition-all duration-500',
           scrolled 
-            ? 'bg-warm/95 dark:bg-[#0F1A0F]/95 backdrop-blur-xl shadow-card border-b border-brand dark:border-brand/30 h-[68px]'
-            : 'bg-warm dark:bg-[#0F1A0F] h-20 border-b border-brand/20 dark:border-white/10',
+            ? 'bg-ivory/90 backdrop-blur-xl shadow-card border-b border-brand h-[68px]'
+            : 'bg-ivory h-20 border-b border-brand/20',
         ].join(' ')}
       >
         {/* Logo */}

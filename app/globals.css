@@ -11,6 +11,8 @@
     --emerald-deep: #004000;
     --charcoal: #1A1A18;
     --ivory: #FEFDFC;
+    --warm: #FAF8F3;
+    --cream: #F4F0E6;
     --dark: #111111;
   }
 
@@ -20,6 +22,8 @@
     --emerald-deep: #0b3d19;
     --charcoal: #f2f4f1;
     --ivory: #0e1510;
+    --warm: #121b14;
+    --cream: #151e17;
     --dark: #060a07;
   }
 
@@ -173,22 +177,11 @@ html {
 }
 
 body {
-  background-color: #FAF8F3;
-  color: #1A1A18;
+  background-color: var(--warm);
+  color: var(--charcoal);
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-[data-theme='dark'] body {
-  background-color: #0e1510;
-  color: #f2f4f1;
-}
-
-[data-theme='dark'] .bg-warm,
-[data-theme='dark'] .bg-cream,
-[data-theme='dark'] .bg-ivory {
-  background-color: #121b14;
 }
 
 [data-theme='dark'] .text-charcoal {
