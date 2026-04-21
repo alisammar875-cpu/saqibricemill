@@ -7,6 +7,8 @@ import { ProductCardSkeleton } from '@/components/shop/ProductCardSkeleton'
 import type { Metadata } from 'next'
 import { getProducts } from '@/actions/products'
 
+export const revalidate = 0 // Disable cache for shop to show live data
+
 export const metadata: Metadata = {
   title: 'Shop Premium Rice',
   description: 'Browse our complete collection of premium basmati, IRRI, and specialty rice varieties. Direct factory pricing with free delivery above PKR 5,000.',

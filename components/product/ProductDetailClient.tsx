@@ -42,9 +42,9 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const [activeTab, setActiveTab] = useState<'description' | 'nutrition' | 'reviews'>('description')
   const addItem = useCartStore(s => s.addItem)
 
-  const variant = product.variants[selectedVariant]
-  const price = product.basePrice + (variant?.priceOffset ?? 0)
-  const avgRating = product.reviews.length
+  const variant = product.variants?.[selectedVariant] || product.variants?.[0]
+  const price = Number(product.basePrice || 0) + (variant?.priceOffset ?? 0)
+  const avgRating = (product.reviews?.length ?? 0)
     ? product.reviews.reduce((s, r) => s + r.rating, 0) / product.reviews.length
     : 0
   const stars = Math.round(avgRating)
@@ -73,8 +73,8 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
         <span>/</span>
         <Link href="/shop" className="hover:text-gold transition-colors">Shop</Link>
         <span>/</span>
-        <Link href={`/shop?cat=${product.category.slug}`} className="hover:text-gold transition-colors">
-          {product.category.name}
+        <Link href={`/shop?cat=${product.category?.slug || 'rice'}`} className="hover:text-gold transition-colors">
+          {product.category?.name || 'Rice'}
         </Link>
         <span>/</span>
         <span className="text-charcoal font-semibold">{product.name}</span>
@@ -127,7 +127,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <p className="eyebrow text-emerald mb-2">{product.category.name}</p>
+          <p className="eyebrow text-emerald mb-2">{product.category?.name || 'Rice'}</p>
           <h1 className="font-display text-3xl md:text-4xl font-semibold text-charcoal leading-tight mb-2">
             {product.name}
           </h1>
@@ -138,7 +138,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
           )}
 
           {/* Rating */}
-          {product.reviews.length > 0 && (
+          {(product.reviews?.length ?? 0) > 0 && (
             <div className="flex items-center gap-2 mb-6">
               <div className="flex gap-0.5">
                 {[1, 2, 3, 4, 5].map(n => (
@@ -163,7 +163,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
           <div className="mb-6">
             <p className="text-xs font-semibold tracking-wider uppercase text-charcoal mb-3">Select Size</p>
             <div className="flex flex-wrap gap-3">
-              {product.variants.map((v, i) => (
+              {(product.variants || []).map((v, i) => (
                 <button
                   key={v.id}
                   onClick={() => { setSelectedVariant(i); setQuantity(1) }}
@@ -178,7 +178,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                 >
                   {v.name}
                   <span className="block text-2xs font-normal text-mid-gray mt-0.5">
-                    {formatPKR(product.basePrice + v.priceOffset)}
+                    {formatPKR(Number(product.basePrice || 0) + v.priceOffset)}
                   </span>
                 </button>
               ))}
@@ -326,14 +326,14 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
 
         {activeTab === 'reviews' && (
           <div className="max-w-2xl">
-            {product.reviews.length === 0 ? (
+            {(product.reviews?.length ?? 0) === 0 ? (
               <div className="text-center py-12">
                 <span className="text-4xl mb-3 block">⭐</span>
                 <p className="text-mid-gray">No reviews yet. Be the first to review this product!</p>
               </div>
             ) : (
               <div className="space-y-6">
-                {product.reviews.map((review, i) => (
+                {(product.reviews || []).map((review, i) => (
                   <div key={i} className="bg-ivory rounded-xl p-6 border border-brand">
                     <div className="flex items-center gap-2 mb-3">
                       <div className="flex gap-0.5">

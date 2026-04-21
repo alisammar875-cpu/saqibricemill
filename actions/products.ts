@@ -109,7 +109,7 @@ export const getCategories = cache(async () => {
 })
 
 // Product average rating helper
-export function getAverageRating(reviews: { rating: number }[]): number {
-  if (!reviews.length) return 0
+export function getAverageRating(reviews?: { rating: number }[]): number {
+  if (!reviews || !reviews.length) return 0
   return reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
 }

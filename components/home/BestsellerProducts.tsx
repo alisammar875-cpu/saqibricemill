@@ -28,7 +28,7 @@ export async function BestsellerProducts() {
           <ProductCard
             key={product.id}
             product={product}
-            avgRating={getAverageRating(product.reviews)}
+            avgRating={getAverageRating(product.reviews || [])}
             className={`reveal reveal-delay-${Math.min(i + 1, 5)}`}
           />
         ))}
