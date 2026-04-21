@@ -1,5 +1,6 @@
 import { FieldValue, Timestamp } from 'firebase-admin/firestore'
 import { db } from '@/lib/firebase-admin'
+import { serializeDoc } from '@/lib/utils'
 
 export interface DbProduct {
   id: string
@@ -30,25 +31,6 @@ export interface DbProduct {
   reviews: { rating: number }[]
   createdAt?: Timestamp
   updatedAt?: Timestamp
-}
-
-// ── Serialization Helpers ──────────────────────────────────────────────────
-
-function serializeDoc(data: any) {
-  if (!data) return data
-  const serialized = { ...data }
-  for (const key in serialized) {
-    if (serialized[key] instanceof Timestamp) {
-      serialized[key] = serialized[key].toDate().toISOString()
-    } else if (serialized[key] instanceof Array) {
-      serialized[key] = serialized[key].map((item: any) => 
-        typeof item === 'object' ? serializeDoc(item) : item
-      )
-    } else if (typeof serialized[key] === 'object' && serialized[key] !== null) {
-      serialized[key] = serializeDoc(serialized[key])
-    }
-  }
-  return serialized
 }
 
 // ── Product Queries ─────────────────────────────────────────────────────────

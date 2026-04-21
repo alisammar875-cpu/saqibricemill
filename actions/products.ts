@@ -1,6 +1,7 @@
 import { cache } from 'react'
 import { type DbProduct, getFeaturedProductsFromDb, getProductBySlugFromDb } from '@/lib/firestore'
 import { db } from '@/lib/firebase-admin'
+import { serializeDoc } from '@/lib/utils'
 
 // Cached featured products for homepage
 export const getFeaturedProducts = cache(async () => {
@@ -36,7 +37,7 @@ export async function getProducts({
     console.error('Failed to load products:', error)
     return null
   })
-  const all = (snap?.docs ?? []).map((d: FirebaseFirestore.QueryDocumentSnapshot) => ({ id: d.id, ...(d.data() as Omit<DbProduct, 'id'>) }))
+  const all = (snap?.docs ?? []).map((d: FirebaseFirestore.QueryDocumentSnapshot) => serializeDoc({ id: d.id, ...d.data() }))
 
   const filtered = all
     .filter((p: DbProduct) =>

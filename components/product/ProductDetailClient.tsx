@@ -89,23 +89,31 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
           className="relative rounded-2xl overflow-hidden h-[450px] md:h-[550px]"
           style={{ background: 'linear-gradient(145deg, #0F1A0F, #1E3020)' }}
         >
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
-            <div
-              className="w-[180px] h-[240px] rounded-[24px_24px_32px_32px] flex flex-col items-center justify-center relative"
-              style={{
-                background: 'linear-gradient(145deg,#007A00,#004A00,#002800)',
-                boxShadow: '0 30px 70px rgba(0,0,0,0.4)',
-              }}
-            >
-              <div className="absolute top-8 left-4 right-4 h-14 rounded-lg" style={{ background: 'rgba(212,175,119,0.25)' }} />
-              <span className="font-display text-sm font-bold tracking-[0.15em] uppercase text-center leading-snug z-10" style={{ color: '#D4AF77' }}>
-                SAQIB<br />RICE MILLS
-              </span>
-              <span className="absolute bottom-5 text-xs tracking-[0.1em] uppercase" style={{ color: 'rgba(212,175,119,0.7)' }}>
-                {variant ? `${variant.weight / 1000}KG` : ''}
-              </span>
+          {product.images?.[0]?.url ? (
+            <img 
+              src={product.images[0].url} 
+              alt={product.images[0].altText || product.name} 
+              className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+            />
+          ) : (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-4">
+              <div
+                className="w-[180px] h-[240px] rounded-[24px_24px_32px_32px] flex flex-col items-center justify-center relative"
+                style={{
+                  background: 'linear-gradient(145deg,#007A00,#004A00,#002800)',
+                  boxShadow: '0 30px 70px rgba(0,0,0,0.4)',
+                }}
+              >
+                <div className="absolute top-8 left-4 right-4 h-14 rounded-lg" style={{ background: 'rgba(212,175,119,0.25)' }} />
+                <span className="font-display text-sm font-bold tracking-[0.15em] uppercase text-center leading-snug z-10" style={{ color: '#D4AF77' }}>
+                  SAQIB<br />RICE MILLS
+                </span>
+                <span className="absolute bottom-5 text-xs tracking-[0.1em] uppercase" style={{ color: 'rgba(212,175,119,0.7)' }}>
+                  {variant ? `${variant.weight / 1000}KG` : ''}
+                </span>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Badges */}
           <div className="absolute top-4 left-4 flex flex-col gap-2">
