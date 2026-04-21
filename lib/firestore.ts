@@ -28,7 +28,7 @@ export interface DbProduct {
   tags: string[]
   images: { url: string; altText?: string | null; isPrimary?: boolean }[]
   variants: { id: string; name: string; weight: number; priceOffset: number; stock: number; isActive?: boolean; sortOrder?: number }[]
-  reviews: { rating: number }[]
+  reviews: { rating: number; title?: string; body?: string; userName?: string; createdAt?: string }[]
   createdAt?: Timestamp
   updatedAt?: Timestamp
 }
