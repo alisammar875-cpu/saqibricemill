@@ -25,6 +25,7 @@
     "jose": "^6.2.2",
     "lucide-react": "latest",
     "next": "latest",
+    "nodemailer": "^8.0.5",
     "react": "latest",
     "react-dom": "latest",
     "recharts": "latest",
@@ -36,6 +37,7 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "latest",
+    "@types/nodemailer": "^8.0.0",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "autoprefixer": "latest",
