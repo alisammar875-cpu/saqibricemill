@@ -3,6 +3,7 @@
 import { db } from '@/lib/firebase-admin'
 import { FieldValue } from 'firebase-admin/firestore'
 import { revalidatePath } from 'next/cache'
+import { sendOrderStatusUpdateEmail } from '@/lib/email'
 
 export async function createProductAction(formData: FormData) {
   try {
@@ -208,10 +209,23 @@ export async function deleteProductAction(productId: string) {
 
 export async function updateOrderStatusAction(orderId: string, status: string) {
   try {
-    await db.collection('orders').doc(orderId).set(
+    const orderRef = db.collection('orders').doc(orderId)
+    const doc = await orderRef.get()
+    
+    await orderRef.set(
       { status, updatedAt: FieldValue.serverTimestamp() },
       { merge: true }
     )
+
+    if (doc.exists) {
+      const orderData = doc.data()
+      if (orderData?.guestEmail) {
+        sendOrderStatusUpdateEmail(orderId, orderData, status).catch(err => {
+          console.error('Failed to send status update email:', err)
+        })
+      }
+    }
+
     revalidatePath('/admin/orders')
     revalidatePath(`/admin/orders/${orderId}`)
     return { success: true }
