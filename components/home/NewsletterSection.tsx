@@ -7,12 +7,21 @@ export function NewsletterSection() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!email) return
-    setSubmitted(true)
-    setEmail('')
-    setTimeout(() => setSubmitted(false), 5000)
+    
+    try {
+      const { subscribeToNewsletter } = await import('@/actions/newsletter')
+      const res = await subscribeToNewsletter(email)
+      if (res.success) {
+        setSubmitted(true)
+        setEmail('')
+        setTimeout(() => setSubmitted(false), 5000)
+      }
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   return (

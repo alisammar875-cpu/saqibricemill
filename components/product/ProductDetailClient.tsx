@@ -334,15 +334,21 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
 
         {activeTab === 'reviews' && (
           <div className="max-w-2xl">
+            {/* Write a Review */}
+            <div className="bg-ivory rounded-xl p-8 border border-brand mb-10">
+              <h3 className="font-display text-xl font-semibold text-charcoal mb-6">Write a Review</h3>
+              <ReviewForm productId={product.id} />
+            </div>
+
             {(product.reviews?.length ?? 0) === 0 ? (
               <div className="text-center py-12">
                 <span className="text-4xl mb-3 block">⭐</span>
-                <p className="text-mid-gray">No reviews yet. Be the first to review this product!</p>
+                <p className="text-mid-gray italic">No reviews yet. Be the first to share your experience!</p>
               </div>
             ) : (
               <div className="space-y-6">
                 {(product.reviews || []).map((review, i) => (
-                  <div key={i} className="bg-ivory rounded-xl p-6 border border-brand">
+                  <div key={i} className="bg-ivory rounded-xl p-6 border border-brand transition-all hover:border-gold/30">
                     <div className="flex items-center gap-2 mb-3">
                       <div className="flex gap-0.5">
                         {[1, 2, 3, 4, 5].map(n => (
@@ -353,8 +359,10 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
                     </div>
                     {review.body && <p className="text-sm text-mid-gray font-light leading-relaxed mb-3">{review.body}</p>}
                     <div className="flex items-center gap-2 text-2xs text-mid-gray">
-                      {review.user && <span className="font-semibold">{review.user.firstName} {review.user.lastName}</span>}
-                      {review.createdAt && <span>· {review.createdAt}</span>}
+                      <span className="font-semibold text-emerald">{review.userName || 'Verified Buyer'}</span>
+                      {review.createdAt && (
+                        <span>· {new Date(review.createdAt).toLocaleDateString('en-PK', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -364,5 +372,75 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
         )}
       </div>
     </div>
+  )
+}
+
+function ReviewForm({ productId }: { productId: string }) {
+  const [rating, setRating] = useState(5)
+  const [title, setTitle] = useState('')
+  const [body, setBody] = useState('')
+  const [userName, setUserName] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setSubmitting(true)
+    try {
+      const { addProductReview } = await import('@/actions/reviews')
+      const res = await addProductReview(productId, { rating, title, body, userName })
+      if (res.success) {
+        toast.success('Review submitted successfully!')
+        setTitle('')
+        setBody('')
+        setUserName('')
+      } else {
+        toast.error(res.error || 'Failed to submit review')
+      }
+    } catch (err) {
+      toast.error('Something went wrong')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="flex items-center gap-2 mb-4">
+        <span className="text-xs font-semibold text-charcoal uppercase tracking-wider">Rating:</span>
+        <div className="flex gap-1">
+          {[1, 2, 3, 4, 5].map(n => (
+            <button
+              key={n}
+              type="button"
+              onClick={() => setRating(n)}
+              className="text-xl transition-transform hover:scale-110"
+              style={{ color: n <= rating ? '#D4AF77' : '#D1D1C7' }}
+            >
+              ★
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <input 
+          placeholder="Your Name *" required value={userName}
+          onChange={e => setUserName(e.target.value)}
+          className="px-4 py-3 rounded-lg border border-brand bg-white text-sm focus:outline-none focus:border-gold transition-colors" />
+        <input 
+          placeholder="Review Title *" required value={title}
+          onChange={e => setTitle(e.target.value)}
+          className="px-4 py-3 rounded-lg border border-brand bg-white text-sm focus:outline-none focus:border-gold transition-colors" />
+      </div>
+      <textarea 
+        placeholder="Share your experience with this rice..." required rows={4} value={body}
+        onChange={e => setBody(e.target.value)}
+        className="w-full px-4 py-3 rounded-lg border border-brand bg-white text-sm focus:outline-none focus:border-gold transition-colors resize-none" />
+      <button 
+        disabled={submitting}
+        className="btn btn-emerald text-xs px-10 py-3 disabled:opacity-50"
+      >
+        {submitting ? 'Submitting...' : 'Submit Review'}
+      </button>
+    </form>
   )
 }
