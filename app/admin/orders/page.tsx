@@ -20,7 +20,7 @@ export default async function AdminOrdersPage() {
         </div>
       </div>
 
-      <div className="bg-ivory rounded-xl border border-brand overflow-hidden">
+      <div className="bg-ivory rounded-xl border border-brand overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="bg-cream border-b border-brand">

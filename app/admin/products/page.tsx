@@ -16,7 +16,7 @@ export default async function AdminProductsPage() {
         <Link href="/admin/products/new" className="btn btn-emerald text-xs px-6 py-3">+ Add Product</Link>
       </div>
 
-      <div className="bg-ivory rounded-xl border border-brand overflow-hidden">
+      <div className="bg-ivory rounded-xl border border-brand overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="bg-cream border-b border-brand">
