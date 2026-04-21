@@ -1,0 +1,12 @@
+{
+  "name": "Saqib Rice Mills",
+  "short_name": "SaqibRice",
+  "description": "Pakistan's Finest Premium Rice — Direct from Factory to Your Table",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF8F3",
+  "theme_color": "#006400",
+  "icons": [
+    { "src": "/logo.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
