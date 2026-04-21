@@ -78,7 +78,7 @@ function generateEmailHtml({ title, message, orderId, orderData }: { title: stri
           </table>
 
           <div style="margin-top: 40px; text-align: center;">
-            <a href="${NEXT_PUBLIC_APP_URL || 'https://saqibricemills.vercel.app'}/account/orders/${orderId}" style="display: inline-block; background-color: #006400; color: #ffffff; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px; letter-spacing: 1px; text-transform: uppercase;">Track Order</a>
+            <a href="${baseUrl}/account/orders/${orderId}" style="display: inline-block; background-color: #006400; color: #ffffff; padding: 14px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px; letter-spacing: 1px; text-transform: uppercase;">Track Order</a>
           </div>
         </td>
       </tr>
