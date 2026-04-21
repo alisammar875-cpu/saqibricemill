@@ -149,31 +149,39 @@ export function ShopContent({ searchParams, initialProducts }: ShopContentProps)
                 <Link href={`/product/${product.slug}`}>
                   {/* Image placeholder */}
                   <div
-                    className="relative h-60 flex items-center justify-center"
+                    className="relative h-60 flex items-center justify-center overflow-hidden"
                     style={{ background: 'linear-gradient(145deg,#0F1A0F,#1E3020)' }}
                   >
-                    <div className="relative">
-                      <div
-                        className="w-[120px] h-[165px] rounded-[18px_18px_26px_26px] flex flex-col items-center justify-center"
-                        style={{
-                          background: 'linear-gradient(145deg,#007A00,#004A00,#002800)',
-                          boxShadow: '0 20px 50px rgba(0,0,0,0.35)',
-                        }}
-                      >
-                        <span
-                          className="font-display text-[0.7rem] font-bold tracking-[0.15em] uppercase text-center leading-snug z-10"
-                          style={{ color: '#D4AF77' }}
+                    {product.images?.[0]?.url ? (
+                      <img 
+                        src={product.images[0].url} 
+                        alt={product.images[0].altText || product.name} 
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="relative">
+                        <div
+                          className="w-[120px] h-[165px] rounded-[18px_18px_26px_26px] flex flex-col items-center justify-center"
+                          style={{
+                            background: 'linear-gradient(145deg,#007A00,#004A00,#002800)',
+                            boxShadow: '0 20px 50px rgba(0,0,0,0.35)',
+                          }}
                         >
-                          SAQIB<br />RICE MILLS
-                        </span>
-                        <span
-                          className="absolute bottom-4 text-[0.6rem] tracking-[0.1em] uppercase"
-                          style={{ color: 'rgba(212,175,119,0.7)' }}
-                        >
-                          {baseVariant ? `${baseVariant.weight / 1000}KG` : ''}
-                        </span>
+                          <span
+                            className="font-display text-[0.7rem] font-bold tracking-[0.15em] uppercase text-center leading-snug z-10"
+                            style={{ color: '#D4AF77' }}
+                          >
+                            SAQIB<br />RICE MILLS
+                          </span>
+                          <span
+                            className="absolute bottom-4 text-[0.6rem] tracking-[0.1em] uppercase"
+                            style={{ color: 'rgba(212,175,119,0.7)' }}
+                          >
+                            {baseVariant ? `${baseVariant.weight / 1000}KG` : ''}
+                          </span>
+                        </div>
                       </div>
-                    </div>
+                    )}
 
                     {/* Badge */}
                     {product.isNew && (
