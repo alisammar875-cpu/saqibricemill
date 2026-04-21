@@ -32,6 +32,25 @@ export interface DbProduct {
   updatedAt?: Timestamp
 }
 
+// ── Serialization Helpers ──────────────────────────────────────────────────
+
+function serializeDoc(data: any) {
+  if (!data) return data
+  const serialized = { ...data }
+  for (const key in serialized) {
+    if (serialized[key] instanceof Timestamp) {
+      serialized[key] = serialized[key].toDate().toISOString()
+    } else if (serialized[key] instanceof Array) {
+      serialized[key] = serialized[key].map((item: any) => 
+        typeof item === 'object' ? serializeDoc(item) : item
+      )
+    } else if (typeof serialized[key] === 'object' && serialized[key] !== null) {
+      serialized[key] = serializeDoc(serialized[key])
+    }
+  }
+  return serialized
+}
+
 // ── Product Queries ─────────────────────────────────────────────────────────
 
 export async function getFeaturedProductsFromDb(limit = 8): Promise<DbProduct[]> {
@@ -41,27 +60,27 @@ export async function getFeaturedProductsFromDb(limit = 8): Promise<DbProduct[]>
     .limit(limit)
     .get()
 
-  return snap.docs.map((doc) => ({ id: doc.id, ...(doc.data() as Omit<DbProduct, 'id'>) }))
+  return snap.docs.map((doc) => serializeDoc({ id: doc.id, ...doc.data() }))
 }
 
 export async function getProductBySlugFromDb(slug: string): Promise<DbProduct | null> {
   const snap = await db.collection('products').where('slug', '==', slug).limit(1).get()
   if (snap.empty) return null
   const doc = snap.docs[0]
-  return { id: doc.id, ...(doc.data() as Omit<DbProduct, 'id'>) }
+  return serializeDoc({ id: doc.id, ...doc.data() })
 }
 
 export async function getProductsByIdsFromDb(ids: string[]): Promise<DbProduct[]> {
   const uniqueIds = [...new Set(ids)].filter(Boolean)
   if (!uniqueIds.length) return []
   const docs = await Promise.all(uniqueIds.map((id) => db.collection('products').doc(id).get()))
-  return docs.filter((d) => d.exists).map((d) => ({ id: d.id, ...(d.data() as Omit<DbProduct, 'id'>) }))
+  return docs.filter((d) => d.exists).map((d) => serializeDoc({ id: d.id, ...d.data() }))
 }
 
 export async function getProductByIdFromDb(id: string): Promise<DbProduct | null> {
   const doc = await db.collection('products').doc(id).get()
   if (!doc.exists) return null
-  return { id: doc.id, ...(doc.data() as Omit<DbProduct, 'id'>) }
+  return serializeDoc({ id: doc.id, ...doc.data() })
 }
 
 // ── Order Queries ───────────────────────────────────────────────────────────
@@ -91,7 +110,7 @@ export async function updateOrder(orderId: string, patch: Record<string, unknown
 export async function getAdminProducts() {
   try {
     const snap = await db.collection('products').get()
-    return snap.docs.map((doc) => ({ id: doc.id, ...(doc.data() as any) }))
+    return snap.docs.map((doc) => serializeDoc({ id: doc.id, ...doc.data() }))
   } catch (error) {
     console.error('Failed to load admin products:', error)
     return []
@@ -112,7 +131,7 @@ export async function updateProduct(productId: string, data: Record<string, unkn
 export async function getAdminOrders() {
   try {
     const snap = await db.collection('orders').get()
-    const rows = snap.docs.map((doc) => ({ id: doc.id, ...(doc.data() as any) }))
+    const rows = snap.docs.map((doc) => serializeDoc({ id: doc.id, ...doc.data() }))
     return rows.sort((a, b) => {
       const ad = new Date(a.createdAt?.toDate?.() ?? a.createdAt ?? 0).getTime()
       const bd = new Date(b.createdAt?.toDate?.() ?? b.createdAt ?? 0).getTime()
@@ -128,7 +147,7 @@ export async function getOrdersForUser(userId?: string | null) {
   if (!userId) return []
   try {
     const snap = await db.collection('orders').where('userId', '==', userId).get()
-    const rows = snap.docs.map((doc) => ({ id: doc.id, ...(doc.data() as any) }))
+    const rows = snap.docs.map((doc) => serializeDoc({ id: doc.id, ...doc.data() }))
     return rows.sort((a, b) => {
       const ad = new Date(a.createdAt?.toDate?.() ?? a.createdAt ?? 0).getTime()
       const bd = new Date(b.createdAt?.toDate?.() ?? b.createdAt ?? 0).getTime()
@@ -144,7 +163,7 @@ export async function getAdminOrderById(orderId: string) {
   try {
     const doc = await db.collection('orders').doc(orderId).get()
     if (!doc.exists) return null
-    return { id: doc.id, ...(doc.data() as any) }
+    return serializeDoc({ id: doc.id, ...doc.data() })
   } catch (error) {
     console.error('Failed to load order by id:', error)
     return null
