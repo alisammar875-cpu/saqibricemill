@@ -44,7 +44,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
 
   const variant = product.variants?.[selectedVariant] || product.variants?.[0]
   const price = Number(product.basePrice || 0) + (variant?.priceOffset ?? 0)
-  const avgRating = (product.reviews?.length ?? 0)
+  const avgRating = (product.reviews?.length ?? 0) > 0
     ? product.reviews.reduce((s, r) => s + r.rating, 0) / product.reviews.length
     : 0
   const stars = Math.round(avgRating)
@@ -58,7 +58,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
       name: product.name,
       variantName: variant.name,
       price,
-      imageUrl: undefined,
+      imageUrl: product.images?.[0]?.url,
       slug: product.slug,
       stock: variant.stock,
     })

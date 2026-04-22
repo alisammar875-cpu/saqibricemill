@@ -60,7 +60,7 @@ export function CartSidebar({ open, onClose }: CartSidebarProps) {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 28, stiffness: 280 }}
-            className="fixed top-0 right-0 bottom-0 z-[70] w-[420px] max-w-[100vw] bg-warm flex flex-col shadow-[−20px_0_60px_rgba(0,30,0,0.2)]"
+            className="fixed top-0 right-0 bottom-0 z-[70] w-[420px] max-w-[100vw] bg-warm flex flex-col shadow-[-20px_0_60px_rgba(0,30,0,0.2)]"
             role="dialog"
             aria-label="Shopping cart"
           >

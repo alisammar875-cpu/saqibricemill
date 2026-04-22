@@ -28,7 +28,7 @@ export default function CheckoutPage() {
   const [payment, setPayment] = useState('COD')
 
   const subtotal = total()
-  const shippingCost = subtotal >= 5000 ? 0 : shipping === 'express' ? 500 : 350
+  const shippingCost = shipping === 'express' ? 500 : (subtotal >= 5000 ? 0 : 350)
   const grandTotal = subtotal + shippingCost
 
   const handlePlaceOrder = async () => {

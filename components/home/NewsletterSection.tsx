@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { toast } from 'sonner'
 
 export function NewsletterSection() {
   const [email, setEmail] = useState('')
@@ -18,9 +19,12 @@ export function NewsletterSection() {
         setSubmitted(true)
         setEmail('')
         setTimeout(() => setSubmitted(false), 5000)
+      } else {
+        toast.error(res.error || 'Could not subscribe. Please try again.')
       }
     } catch (err) {
       console.error(err)
+      toast.error('Something went wrong. Please try again later.')
     }
   }
 

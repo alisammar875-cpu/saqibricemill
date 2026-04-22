@@ -32,7 +32,6 @@ export function ShopContent({ searchParams, initialProducts }: ShopContentProps)
   const normalizeCategory = (cat?: string) => {
     if (!cat) return ''
     if (cat === 'premium-basmati') return 'BASMATI_1121'
-    if (cat === 'bulk-export') return 'BASMATI_1121'
     return cat
   }
 
@@ -49,7 +48,9 @@ export function ShopContent({ searchParams, initialProducts }: ShopContentProps)
     if (searchQuery) {
       const q = searchQuery.toLowerCase()
       products = products.filter(p =>
-        p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q)
+        p.name.toLowerCase().includes(q) ||
+        p.description.toLowerCase().includes(q) ||
+        (p.tags ?? []).some((t: string) => t.toLowerCase().includes(q))
       )
     }
 

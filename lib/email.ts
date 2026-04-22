@@ -30,8 +30,7 @@ function getItemsHtml(items: any[]) {
 }
 
 function generateEmailHtml({ title, message, orderId, orderData }: { title: string, message: string, orderId: string, orderData: any }) {
-  const isProd = process.env.NODE_ENV === 'production'
-  const baseUrl = isProd ? 'https://saqibricemill.vercel.app' : 'http://localhost:3000'
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || (process.env.NODE_ENV === 'production' ? 'https://saqibricemill.vercel.app' : 'http://localhost:3000')
   
   // High-quality rice background for the banner
   const bannerImg = "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&q=80&w=600&h=200";

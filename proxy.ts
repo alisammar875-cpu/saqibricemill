@@ -6,7 +6,7 @@ const SECRET_KEY = new TextEncoder().encode(
   process.env.ADMIN_SECRET || 'fallback_secret_for_development_do_not_use_in_prod'
 )
 
-export async function middleware(req: NextRequest) {
+export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl
   const token = req.cookies.get('auth_token')?.value
 
@@ -30,12 +30,13 @@ export async function middleware(req: NextRequest) {
     }
 
     return NextResponse.next()
-  } catch (err) {
+  } catch (_err) {
     // Invalid or expired token
     return NextResponse.redirect(new URL('/sign-in', req.url))
   }
 }
 
 export const config = {
-  matcher: ['/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)'],
+  // Exclude static files, Next internals, AND /api/ routes to prevent redirect loops on server actions
+  matcher: ['/((?!_next|api|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)'],
 }

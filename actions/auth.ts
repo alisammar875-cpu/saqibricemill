@@ -87,7 +87,7 @@ export async function registerAdmin(formData: FormData) {
     const password = formData.get('password') as string
     const adminSecret = formData.get('adminSecret') as string
 
-    if (adminSecret !== process.env.ADMIN_SECRET) {
+    if (!process.env.ADMIN_SECRET || adminSecret !== process.env.ADMIN_SECRET) {
       throw new Error('Invalid Admin Secret Key')
     }
 

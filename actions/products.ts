@@ -67,9 +67,9 @@ export async function getProducts({
       case 'newest':
         return (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0)
       case 'rating': {
-        const ar = (a.reviews ?? []).length
-        const br = (b.reviews ?? []).length
-        return br - ar
+        const calcAvg = (reviews: { rating: number }[]) =>
+          reviews.length ? reviews.reduce((s, r) => s + r.rating, 0) / reviews.length : 0
+        return calcAvg(b.reviews ?? []) - calcAvg(a.reviews ?? [])
       }
       default:
         return (b.isFeatured ? 1 : 0) - (a.isFeatured ? 1 : 0)
