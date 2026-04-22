@@ -21,12 +21,20 @@ const RECIPES = [
     emoji: '🥩',
   },
   {
-    title: 'Brown Rice Buddha Bowl',
-    desc: 'A healthy, colorful bowl with our organic Brown Basmati, grilled vegetables, and tahini dressing.',
-    time: '35 min',
-    rice: 'Brown Basmati',
-    slug: 'buddha-bowl',
-    emoji: '🥗',
+    title: 'Royal Zarda',
+    desc: 'A celebratory sweet rice dish with aromatic spices, saffron, and premium 1121 Sella Basmati.',
+    time: '45 min',
+    rice: '1121 Sella',
+    slug: 'royal-zarda',
+    emoji: '🍚',
+  },
+  {
+    title: 'Vegetable Fried Rice',
+    desc: 'Quick, healthy and packed with flavor — the perfect way to use our versatile IRRI-9 rice.',
+    time: '25 min',
+    rice: 'IRRI-9 Rice',
+    slug: 'vegetable-fried-rice',
+    emoji: '🍱',
   },
 ]
 
