@@ -193,6 +193,93 @@ const RECIPES_DB: Record<string, any> = {
     ],
     nutrition: { calories: '320 per serving', protein: '8g', carbs: '45g', fat: '10g' },
   },
+  'chicken-fried-rice': {
+    title: 'Chicken Fried Rice',
+    emoji: '🥡',
+    rice: 'IRRI-9 Rice',
+    time: '30 min',
+    servings: '4',
+    difficulty: 'Easy',
+    category: 'Main Course',
+    intro: 'A restaurant-style Chicken Fried Rice made with our premium IRRI-9 grains. This recipe is fast, delicious, and perfectly balanced with tender chicken and crisp vegetables.',
+    ingredients: [
+      '3 cups cooked Saqib IRRI-9 Rice',
+      '250g chicken breast, small cubes',
+      '2 eggs, scrambled',
+      '1/2 cup carrots and peas',
+      '2 tbsp soy sauce',
+      '1 tbsp ginger-garlic paste',
+      'Spring onions for garnish',
+    ],
+    steps: [
+      'Fry chicken with ginger-garlic until golden.',
+      'Add vegetables and sauté on high heat.',
+      'Mix in cooked rice and soy sauce.',
+      'Toss with scrambled eggs and spring onions.',
+    ],
+    tips: [
+      'Use cold rice for the best grain separation.'
+    ],
+    nutrition: { calories: '380 per serving', protein: '22g', carbs: '48g', fat: '12g' },
+  },
+  'rice-kheer': {
+    title: 'Traditional Rice Kheer',
+    emoji: '🥣',
+    rice: 'Broken Basmati (Tota)',
+    time: '60 min',
+    servings: '6',
+    difficulty: 'Medium',
+    category: 'Dessert',
+    intro: 'The ultimate Pakistani dessert. Slow-cooked milk and Saqib Broken Basmati create a creamy, aromatic rice pudding that\'s rich in tradition and flavor.',
+    ingredients: [
+      '1/2 cup Saqib Broken Basmati Rice',
+      '2 liters full-fat milk',
+      '1 cup sugar',
+      '4 green cardamom pods',
+      'Almonds and pistachios for garnish',
+      'Few drops of Kewra water',
+    ],
+    steps: [
+      'Soak rice for 30 minutes, then grind coarsely.',
+      'Boil milk with cardamom. Add rice and cook on low heat.',
+      'Stir continuously until the milk reduces and thickens.',
+      'Add sugar and cook for another 10 minutes.',
+      'Garnish with nuts and serve chilled.',
+    ],
+    tips: [
+      'Slow cooking is the secret to a rich, creamy texture.'
+    ],
+    nutrition: { calories: '290 per serving', protein: '8g', carbs: '40g', fat: '10g' },
+  },
+  'beef-tahiri': {
+    title: 'Beef Tahiri (Sindhi Style)',
+    emoji: '🥘',
+    rice: '1121 Basmati',
+    time: '120 min',
+    servings: '6',
+    difficulty: 'Hard',
+    category: 'Main Course',
+    intro: 'A robust and spicy Sindhi specialty. Beef Tahiri combines tender beef with our long-grain 1121 Basmati and a blend of traditional Sindhi spices for an unforgettable meal.',
+    ingredients: [
+      '500g Saqib 1121 Basmati Rice',
+      '750g beef (with bone)',
+      '3 potatoes, halved',
+      '1 cup yogurt',
+      'Sindhi Biryani masala blend',
+      'Plums (Aloo Bukhara)',
+      'Fried onions',
+    ],
+    steps: [
+      'Cook beef with spices until tender.',
+      'Add potatoes and yogurt, cook until oil separates.',
+      'Layer with partially boiled 1121 Basmati.',
+      'Steam (dum) for 20 minutes on low heat.',
+    ],
+    tips: [
+      'Use bone-in beef for the most authentic flavor.'
+    ],
+    nutrition: { calories: '540 per serving', protein: '35g', carbs: '55g', fat: '18g' },
+  },
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {

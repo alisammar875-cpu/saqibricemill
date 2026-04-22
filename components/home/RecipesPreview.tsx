@@ -29,12 +29,28 @@ const RECIPES = [
     emoji: '🍚',
   },
   {
-    title: 'Vegetable Fried Rice',
+    title: 'Chicken Fried Rice',
     desc: 'Quick, healthy and packed with flavor — the perfect way to use our versatile IRRI-9 rice.',
     time: '25 min',
     rice: 'IRRI-9 Rice',
-    slug: 'vegetable-fried-rice',
-    emoji: '🍱',
+    slug: 'chicken-fried-rice',
+    emoji: '🥡',
+  },
+  {
+    title: 'Beef Tahiri (Sindhi Style)',
+    desc: 'A robust and spicy specialty using our 1121 Basmati and traditional Sindhi spices.',
+    time: '120 min',
+    rice: '1121 Basmati',
+    slug: 'beef-tahiri',
+    emoji: '🥘',
+  },
+  {
+    title: 'Traditional Rice Kheer',
+    desc: 'The ultimate creamy dessert made with slow-cooked milk and our aromatic broken basmati.',
+    time: '60 min',
+    rice: 'Broken Basmati',
+    slug: 'rice-kheer',
+    emoji: '🥣',
   },
 ]
 
